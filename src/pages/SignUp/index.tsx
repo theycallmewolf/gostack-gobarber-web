@@ -86,7 +86,7 @@ const SignUp: React.FC = () => {
               placeholder="Palavra-Passe"
             />
             <Button type="submit">Registar</Button>
-            <a href="forgot">Recuperar senha</a>
+            <Link to="/password-recover">Recuperar password</Link>
           </Form>
           <Link to="/">
             <FiArrowLeft />
