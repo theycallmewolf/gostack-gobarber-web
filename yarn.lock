@@ -9737,6 +9737,13 @@ react-app-polyfill@2.0.0-next.135+025f2739:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.3.1"
 
+react-day-picker@^7.4.8:
+  version "7.4.8"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.4.8.tgz#675625240d3fae1b41c0a9d5177c968c8517c1d4"
+  integrity sha512-pp0hnxFVoRuBQcRdR1Hofw4CQtOCGVmzCNrscyvS0Q8NEc+UiYLEDqE5dk37bf0leSnBW4lheIt0CKKhuKzDVw==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-dev-utils@11.0.0-next.98+025f2739:
   version "11.0.0-next.98"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.0-next.98.tgz#8a8ea2c744bafe2ed4713b9edcd8c85560d0823f"
