@@ -160,6 +160,14 @@ export const Section = styled.div`
     display: block;
     padding-bottom: 16px;
     margin-bottom: 16px;
+
+    &:last-of-type {
+      margin-top: 32px;
+    }
+  }
+
+  p {
+    color: #999591;
   }
 `;
 
