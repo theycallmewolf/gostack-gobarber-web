@@ -16,7 +16,9 @@ import { useAuth } from '../../hooks/AuthContext';
 interface ProfileFormData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -35,20 +37,58 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required('Email obrigatório')
             .email('Adicione um email válido'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: val => !!val.length,
+            then: Yup.string().required('Campo obrigatório'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: val => !!val.length,
+              then: Yup.string().required('Campo obrigatório'),
+              otherwise: Yup.string(),
+            })
+            .oneOf(
+              [Yup.ref('password'), undefined],
+              'Palavra-passe tem de ser a mesma',
+            ),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
 
-        history.push('/');
+        const formData = {
+          name,
+          email,
+          ...(old_password
+            ? {
+                old_password,
+                password,
+                password_confirmation,
+              }
+            : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        updateUser(response.data);
+
+        history.push('/dashboard');
+
         addToast({
           type: 'success',
-          title: 'registo efetuado',
-          description: 'Já pode entrar no GoBarber',
+          title: 'perfil atualizado',
+          description: 'Os seus dados foram guardados com sucesso',
         });
       } catch (err) {
         // console.log(err);
@@ -61,9 +101,9 @@ const Profile: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'erro no registo',
+          title: 'erro na atualização',
           description:
-            'ocorreu um erro ao enviar o seu registo. tente novamente',
+            'ocorreu um erro ao atualizar o seu perfil. tente novamente',
         });
       }
     },
@@ -131,7 +171,7 @@ const Profile: React.FC = () => {
             placeholder="Nova palavra-passe"
           />
           <Input
-            name="password_confirm"
+            name="password_confirmation"
             icon={FiLock}
             type="password"
             placeholder="Confirmar palavra-passe"
