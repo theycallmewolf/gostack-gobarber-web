@@ -50,7 +50,6 @@ const SignUp: React.FC = () => {
           description: 'Já pode entrar no GoBarber',
         });
       } catch (err) {
-        // console.log(err);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
