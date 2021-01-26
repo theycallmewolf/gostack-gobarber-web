@@ -86,15 +86,15 @@ const ResetPassword: React.FC = () => {
               name="password"
               icon={FiLock}
               type="password"
-              placeholder="nova password"
+              placeholder="Nova Password"
             />
             <Input
               name="password_confirmation"
               icon={FiLock}
               type="password"
-              placeholder="confirmar password"
+              placeholder="Confirmar Password"
             />
-            <Button type="submit">Entrar</Button>
+            <Button type="submit">Recuperar</Button>
           </Form>
         </AnimationContainer>
       </Content>
