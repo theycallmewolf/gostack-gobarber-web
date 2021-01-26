@@ -3,8 +3,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import SignUp from '../../pages/SignUp';
 
 const mockedHistoryPush = jest.fn();
-const mockedApiRequest = jest.fn();
 const mockedAddToast = jest.fn();
+const mockedApiResponse = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('../../services/api', () => ({
-  post: () => mockedApiRequest,
+  post: () => mockedApiResponse,
 }));
 
 jest.mock('../../hooks/ToastContext', () => ({
@@ -26,6 +26,7 @@ jest.mock('../../hooks/ToastContext', () => ({
 describe('SignUp page', () => {
   beforeEach(() => {
     mockedHistoryPush.mockClear();
+    mockedAddToast.mockClear();
   });
 
   it('should be able to register', async () => {
@@ -76,11 +77,7 @@ describe('SignUp page', () => {
     });
   });
 
-  it('should display an error after register', async () => {
-    mockedApiRequest.mockImplementation(() => {
-      throw new Error();
-    });
-
+  it('should display an success message after register', async () => {
     const { getByPlaceholderText, getByText } = render(<SignUp />);
 
     const nameField = getByPlaceholderText('Nome');
@@ -107,4 +104,32 @@ describe('SignUp page', () => {
       );
     });
   });
+
+  // it('should display an error message after register failure', async () => {
+  //   const { getByPlaceholderText, getByText } = render(<SignUp />);
+
+  //   const nameField = getByPlaceholderText('Nome');
+  //   const emailField = getByPlaceholderText('E-mail');
+  //   const passwordField = getByPlaceholderText('Palavra-Passe');
+  //   const buttonElement = getByText('Registar');
+
+  //   fireEvent.change(nameField, {
+  //     target: { value: 'wolf' },
+  //   });
+  //   fireEvent.change(emailField, {
+  //     target: { value: 'fake@theycallmewolf.com' },
+  //   });
+  //   fireEvent.change(passwordField, {
+  //     target: { value: 'fake-password' },
+  //   });
+  //   fireEvent.click(buttonElement);
+
+  //   await waitFor(() => {
+  //     expect(mockedAddToast).toHaveBeenCalledWith(
+  //       expect.objectContaining({
+  //         type: 'error',
+  //       }),
+  //     );
+  //   });
+  // });
 });
